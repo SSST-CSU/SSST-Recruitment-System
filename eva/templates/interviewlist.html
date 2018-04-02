@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>面试名单</title>
+</head>
+<body>
+    <h1><label onclick="back()">返回</label></h1>
+    <h1>具有面试资格的名单</h1>
+    <table border="1" width="100%">
+        <tr>
+            <th width="5%">编号</th>
+            <th width="5%">学号</th>
+            <th width="5%">姓名</th>
+            <th width="8%">第一志愿</th>
+            <th width="8%">第二志愿</th>
+            <th width="10%">第一次考核任务</th>
+            <th width="10%">第二次考核任务</th>
+            <th width="15%">第三次考核任务</th>
+            <th>面试</th>
+        </tr>
+        {% for info in list1 %}
+        <tr
+            {% if user.dept == info.first %}
+            style="color: red; font-weight: bolder;"
+            {% elif user.dept == info.second %}
+            style="color: blue;"
+            {% endif %}
+        >
+            <td>{{ info.no }}</td>
+            <td>{{ info.id }}</td>
+            <td>{{ info.name }}</td>
+            <td>{{ info.first }}</td>
+            <td>{{ info.second }}</td>
+            <td>{{ info.ans1 }}</td>
+            <td>{{ info.ans2 }}</td>
+            <td>{{ info.ans3 }}</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h1>已报名但还未具有面试资格的名单</h1>
+    <table border="1" width="100%">
+        <tr>
+            <th width="5%">编号</th>
+            <th width="5%">学号</th>
+            <th width="5%">姓名</th>
+            <th width="8%">第一志愿</th>
+            <th width="8%">第二志愿</th>
+            <th width="10%">第一次考核任务</th>
+            <th width="10%">第二次考核任务</th>
+            <th width="10%">第三次考核任务</th>
+        </tr>
+        {% for info in list2 %}
+        <tr
+            {% if user.dept == info.first %}
+            style="color: red; font-weight: bolder;"
+            {% elif user.dept == info.second %}
+            style="color: blue;"
+            {% endif %}
+        >
+            <td>{{ info.no }}</td>
+            <td>{{ info.id }}</td>
+            <td>{{ info.name }}</td>
+            <td>{{ info.first }}</td>
+            <td>{{ info.second }}</td>
+            <td>{{ info.ans1 }}</td>
+            <td>{{ info.ans2 }}</td>
+            <td>{{ info.ans3 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+<script>
+
+    function back() {
+        history.back()
+    }
+
+</script>

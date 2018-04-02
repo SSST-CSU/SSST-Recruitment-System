@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static "/frame/AmazeUI-2.4.2/assets/css/amazeui.min.css" %}">
+
+    <script type="text/javascript" src="{% static "/frame/AmazeUI-2.4.2/assets/js/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "/frame/AmazeUI-2.4.2/assets/js/amazeui.min.js" %}"></script>
+    <style type="text/css" rel="stylesheet">
+
+    </style>
+
+    <meta charset="UTF-8">
+    <title>科协招新任务发布系统</title>
+</head>
+<body>
+<div style="position: fixed;width: 100%;background:black;border-color: black;z-index: 200" class="am-topbar am-topbar-inverse am-animation-slide-top">
+    <h1 class="am-topbar-brand">
+        <a href="#">CSU软院科协</a>
+    </h1>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse am-animation-slide-top" id="doc-topbar-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav">
+            <li><a href="http://115.159.217.104:8080/index.jsp">首页</a></li>
+            <li><a href="http://115.159.217.104:8080/retriveTeamByPage?targetPage=1">来组团</a></li>
+            <li><a href="http://115.159.217.104:8080/retriveResourceByPage?targetPage=1">下资源</a></li>
+            <li><a href="http://115.159.217.104:8080/retriveLectureByPage?targetPage=1">听讲座</a></li>
+            <li><a href="http://115.159.217.104:8080/viewCompetition?targetPage=1">找比赛</a></li>
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    找我们 <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a onclick="changeDepartment('主席团')">1. 主席团</a></li>
+                    <li><a onclick="changeDepartment('综事部')">2. 综合事务部</a></li>
+                    <li><a onclick="changeDepartment('竞赛部')">3. 竞赛部</a></li>
+                    <li><a onclick="changeDepartment('双创部')">4. 创新创业服务中心</a></li>
+                    <li><a onclick="changeDepartment('技交部')">5. 技术交流与推广部</a></li>
+                    <li><a onclick="changeDepartment('研发中心')">6. 研发中心</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <script type="text/javascript">
+        function changeDepartment(name){
+            var url = "http://115.159.217.104:8080/retriveDepartment?targetDepartment="+name;
+            window.location.href = url;
+        }
+        </script>
+
+        <div class="am-topbar-right">
+            <a href="http://115.159.217.104:8080/sitePersonInfo.jsp">
+                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm" id="info">{{ name }}的个人中心</button>
+            </a>
+        </div>
+        <div class="am-topbar-right">
+            <a href="http://115.159.217.104:8080/logout">
+                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm" id="logout">注销</button>
+            </a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function changeDepartment(name){
+        var url = "retriveDepartment?targetDepartment="+name;
+        window.location.href = url;
+    }
+
+</script>
+<br>
+<br>
+<br>
+<div>
+    <div style="width: 80%;height: auto;margin-right: auto;margin-left: auto">
+        <form id="registerForm" class="am-form" enctype="multipart/form-data" method="post" action="/apply/">
+            {% csrf_token %}
+            <fieldset>
+                <legend>个人信息(<span style="color: red">*</span>为必填)</legend>
+                <div class="am-form-group">
+                    {% if stat == "" %}
+                    <label><span style="color: red">报名表提交截止时间：2017年10月8日23:59</span> </label><br>
+                    {% else %}
+                    <label><span style="color: red">报名截止！</span> </label><br>
+                    {% endif %}
+                </div>
+
+                <div class="am-form-group">
+                    <label for="name">姓名<span style="color: red">*</span>
+                    </label>
+                    <input type="text" class="" id="name" name="name" value={{ name }} {{ stat }}>
+                </div>
+                <script>
+                    window.onload = function(){
+                        var optElements1 = document.getElementById("sex").children;
+                        var optValue1 = "{{ sex }}";//这是已知的值
+                        for(var opt in optElements1){
+                            if(optElements1[opt].value == optValue1){
+                                optElements1[opt].selected = "selected";
+                                break;
+                            }
+                        }
+                        var optElements2 = document.getElementById("classes").children;
+                        var optValue2 = "{{ classes }}";//这是已知的值
+                        for(var opt in optElements2){
+                            if(optElements2[opt].value==optValue2){
+                                optElements2[opt].selected = "selected";
+                                break;
+                            }
+                        }
+                        var optElements3 =document.getElementById("swap").children;
+                        var optValue3 = "{{ swap }}";//这是已知的值
+                        for(var opt in optElements3){
+                            if(optElements3[opt].value == optValue3){
+                                optElements3[opt].selected = "selected";
+                                break;
+                            }
+                        }
+                        var optElements4 =document.getElementById("first").children;
+                        var optValue4= "{{ first }}";//这是已知的值
+                        for(var opt in optElements4){
+                            if(optElements4[opt].value == optValue4){
+                                optElements4[opt].selected = "selected";
+                                break;
+                            }
+                        }
+                        var optElements5 = document.getElementById("second").children;
+                        var optValue5 = "{{ second }}";//这是已知的值
+                        for(var opt in optElements5){
+                            if(optElements5[opt].value==optValue5){
+                                optElements5[opt].selected="selected";
+                                break;
+                            }
+                        }
+                    }
+                </script>
+                <div class="am-form-group">
+                    <label>性别<span style="color: red">*</span>
+                    </label>
+                    <select name="sex" id="sex" {{ stat }}>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+
+                <div class="am-form-group">
+                        <label>政治面貌<span style="color: red">*</span></label>
+                        <input type="text" class="" name="political" id="political" value="{{ political }}" {{ stat }}>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label for="place">籍贯<span style="color: red">*</span>
+                        </label>
+                        <input type="text" class="" name="place" id="place" value="{{ place }}" {{ stat }}>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="classes">班级<span style="color: red">*</span>
+                        </label>
+                        <select name="classes" id="classes" {{ stat }}>
+                        <option value="1701">1701</option>
+                        <option value="1702">1702</option>
+                        <option value="1703">1703</option>
+                        <option value="1704">1704</option>
+                        <option value="1705">1705</option>
+                        <option value="1706">1706</option>
+                        <option value="1601">1601</option>
+                        <option value="1602">1602</option>
+                        <option value="1603">1603</option>
+                        <option value="1604">1604</option>
+                        <option value="1605">1605</option>
+                        <option value="1606">1606</option>
+                    </select>
+                </div>
+
+                <div class="am-form-group">
+                    <label for="id">学号<span style="color: red">*</span>
+                    </label>
+                    <input type="text" class="" name="id" id="id" readonly="readonly" value={{ id }}>
+                </div>
+
+                <div class="am-form-group">
+                    <label>QQ<span style="color: red">*</span>
+                    </label>
+                    <input type="text" class="" name="qq" id="qq" {{ stat }} value="{{ qq }}">
+                </div>
+
+                <div class="am-form-group">
+                    <label for="qq">联系方式<span style="color: red">*</span>
+                    </label>
+                    <input type="text" class="" name="tel" id="tel" value="{{ tel }}" {{ stat }}>
+                </div>
+
+                <div class="am-form-group">
+                    <label>是否服从调剂<span style="color: red">*</span></label>
+                    <select name="swap" id="swap" {{ stat }}>
+                        <option value="是">是</option>
+                        <option value="否">否</option>
+                    </select>
+                </div>
+
+                <div class="am-form-group">
+                    <label>拟报职位第一志愿<span style="color: red">*</span></label>
+                    <select name="first" id="first" {{ stat }}>
+                        <option value="综事部">综合事务部</option>
+                        <option value="竞赛部">竞赛部</option>
+                        <option value="双创部">创新创业服务中心</option>
+                        <option value="技交部">技术交流与推广部</option>
+                    </select>
+                </div>
+
+                <div class="am-form-group">
+                    <label>第二志愿</label>
+                    <select name="second" id="second" {{ stat }}>
+                        <option value="综事部">综合事务部</option>
+                        <option value="竞赛部">竞赛部</option>
+                        <option value="双创部">创新创业服务中心</option>
+                        <option value="技交部">技术交流与推广部</option>
+                    </select>
+                </div>
+                <div class="am-form-group">
+                    <label>本人获奖情况及特长、技能</label>
+                    <textarea class="" rows="5" name="award" id="award" {{ stat }}>{{ award }}</textarea>
+                </div>
+                <div class="am-form-group">
+                    <label>对学生机构干部工作的想法</label>
+                    <textarea class="" rows="5" name="tink" id="tink" {{ stat }}>{{ tink }}</textarea>
+                </div>
+                <div class="am-form-group">
+                    <label>对学院发展及对学生工作的建议</label>
+                    <textarea class="" rows="5" name="advice" id="advice" {{ stat }}>{{ advice }}</textarea>
+                </div>
+                <div class="am-form-group">
+                    <label>备注</label>
+                    <textarea class="" rows="5" name="attach" id="attach" {{ stat }}>{{ attach }}</textarea>
+                </div>
+                <p style="text-align: center">
+                    {% if stat == "" %}
+                    <input type="submit" class="am-btn am-btn-default" id="confirmbtn" value="保存">
+                    {% endif %}
+                </p>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="msg">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">消息提示
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-modal-bd">
+            <span id="msgContent"></span>
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn">确定</span>
+        </div>
+    </div>
+  </div>
+<script type="text/javascript">
+    function notstart() {
+        $("#msgContent").html("<span style='color: red'>任务暂未发布！</span>");
+        $("#msg").modal();
+    }
+    $("#notstart").on("mouseenter",function(){
+        $("#notstart").css("color","#00a8e6")
+    })
+    $("#notstart").on("mouseleave",function(){
+        $("#notstart").css("color","white")
+    })
+</script>
+</body>
+</html>

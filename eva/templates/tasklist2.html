@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <link rel="stylesheet" href="{% static "/frame/AmazeUI-2.4.2/assets/css/amazeui.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/button.css"%}">
+    <script type="text/javascript" src="{% static "/frame/AmazeUI-2.4.2/assets/js/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "/frame/AmazeUI-2.4.2/assets/js/amazeui.min.js" %}"></script>
+    <style type="text/css" rel="stylesheet"></style>
+
+    <meta charset="UTF-8">
+    <title>考核任务二</title>
+</head>
+<body>
+<h1><label onclick="back()">返回</label></h1>
+{% if user.dept == "主席团" %}
+<form id="综事部" action="/eva/task2/" method="post">
+    {% csrf_token %}
+    <input type="text" value="3901160102" name="id" hidden="hidden">
+    <input id="综事部" type="submit" value="综事部">
+</form>
+<form id="竞赛部" action="/eva/task2/" method="post">
+    {% csrf_token %}
+    <input type="text" value="3901160611" name="id" hidden="hidden">
+    <input id="btn3" type="submit" value="竞赛部">
+</form>
+<form id="task3" action="/eva/task2/" method="post">
+    {% csrf_token %}
+    <input type="text" value="3901160402" name="id" hidden="hidden">
+    <input id="btn3" type="submit" value="双创部">
+</form>
+<form id="task3" action="/eva/task2/" method="post">
+    {% csrf_token %}
+    <input type="text" value="3901160416" name="id" hidden="hidden">
+    <input id="btn3" type="submit" value="技交部">
+</form>
+{% endif %}
+    <table border="1" width="100%">
+        <tr>
+        {% if user.dept == "主席团" %}
+            <th width="5%">学号</th>
+            <th width="5%">姓名</th>
+        {% else %}
+            <th width="5%">编号</th>
+        {% endif %}
+        {% if user.job == "部长" %}
+            <th width="5%">学号</th>
+            <th width="5%">姓名</th>
+        {% endif %}
+            <th width="5%">部门</th>
+            <th>答案</th>
+        {% if user.dept != "主席团" %}
+            {% if user.job == "部长" %}
+            {% for u in userlist %}
+                <th width="8%">{{ u.name }}</th>
+            {% endfor %}
+            {% else %}
+                <th width="8%">分数</th>
+            {% endif %}
+            <th width="8%">平均分</th>
+        {% else %}
+            <th width="5%">分数</th>
+        {% endif %}
+
+        </tr>
+        {% for index in list %}
+        <tr>
+        {% if user.dept == "主席团" %}
+            <td>{{ index.id }}</td>
+            <td>{{ index.name }}</td>
+        {% else %}
+            <td>{{ index.aid }}</td>
+        {% endif %}
+        {% if user.job == "部长" %}
+            <td>{{ index.id }}</td>
+            <td>{{ index.name }}</td>
+        {% endif %}
+        {% if index.dept == "2" %}
+            <td>综事部</td>
+        {% elif index.dept == "3" %}
+            <td>竞赛部</td>
+        {% elif index.dept == "4" %}
+            <td>双创部</td>
+        {% elif index.dept == "5" %}
+            <td>技交部</td>
+        {% endif %}
+            <td>{{ index.ans }}</td>
+        {% if user.dept != "主席团" and user.job == "部长"%}
+            {% for mark in index.marks %}
+                <td><input type="text" style="width: 80%" value="{{ mark.mark }}"
+                           id="mark{{ forloop.counter }}{{ index.aid }}" onchange="change('{{ forloop.counter }}','{{ index.aid }}')"></td>
+            {% endfor %}
+        {% endif %}
+        {% if user.job == "干事" or user.job == "副部长"%}
+            <td><input type="text" style="width: 80%" value="{{ index.marks.0.mark }}"
+                           id="mark1{{ index.aid }}" onchange="change('1','{{ index.aid }}')"></td>
+        {% endif %}
+            <td><input type="text" style="width: 80%" value="{{ index.avg }}"
+                       id="avg" readonly="readonly"></td>
+
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <button style="width: 100%" id="btnsave" onclick="fresh()"><h3>刷新</h3></button>
+</body>
+</html>
+<script>
+
+    function back() {
+        history.back()
+    }
+
+    $.ajaxSetup({
+        data: {csrfmiddlewaretoken: "{{ csrf_token }}" },
+    });
+    function change(loopindex, aid) {
+        var uid;
+        {% if user.job == "部长" or user.dept == "主席团" %}
+        {% for u in userlist %}
+            if("{{ forloop.counter }}" == loopindex){
+                uid = "{{ u.id }}";
+            }
+        {% endfor %}
+        {% else %}
+            uid = "{{ user.id }}";
+        {% endif %}
+        var mark = document.getElementById("mark" + loopindex + aid).value;
+        //alert("get" + uid + "//" + aid + "//" + mark);
+        $.ajax({
+            url: "/eva/save2/",
+            type: "POST",
+            data: {
+                uid: uid,
+                aid: aid,
+                mark: mark,
+            },
+            success:function(callback){
+                var callback_dict = $.parseJSON(callback);
+                if(callback_dict.msg == "1"){
+                    fresh();
+                }
+                else {
+                    alert("保存失败！");
+                }
+            }
+        })
+    }
+
+    function fresh() {
+        location.reload();
+    }
+
+    window.onload=function() {
+
+    }
+
+</script>

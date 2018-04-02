@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body>
+    <form id="login" action="/eva/login/" method="post">
+        {% csrf_token %}
+        <p><h1>科协考核评分系统</h1></p>
+        <p>学号：<input id="id" name="id" type="text"></p>
+        <p>密码：<input id="pwd" name="pwd" type="password"></p>
+        <p>部门：<select id="dept" name="dept">
+            <option value="综事部">综事部</option>
+            <option value="竞赛部">竞赛部</option>
+            <option value="双创部">双创部</option>
+            <option value="技交部">技交部</option>
+            <option value="主席团">主席团</option>
+        </select></p>
+        <p><input value="登录" type="submit"></p>
+    </form>
+</body>
+</html>

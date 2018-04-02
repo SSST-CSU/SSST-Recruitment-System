@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改密码</title>
+</head>
+<body>
+    <form id="password" action="/eva/change/" method="post">
+        {% csrf_token %}
+        <p>账号：<input id="id" name="id" type="text" value="{{ id }}" readonly="readonly"></p>
+        <p>原密码：<input id="pwd" name="pwd" type="password"></p>
+        <p>新密码：<input id="npwd" name="npwd" type="password"></p>
+        <p><input type="submit" value="提交"></p>
+    </form>
+</body>
+</html>

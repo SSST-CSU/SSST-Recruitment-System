@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>报名表</title>
+</head>
+<body>
+    <h1><label onclick="back()">返回</label></h1>
+    <table border="1" width="100%">
+        <tr>
+            <th width="5%">学号</th>
+            <th width="5%">姓名</th>
+            <th width="5%">班级</th>
+            <th width="5%">性别</th>
+            <th width="5%">第一志愿</th>
+            <th width="5%">第二志愿</th>
+            <th width="5%">服从调剂</th>
+            <th width="5%">QQ</th>
+            <th width="5%">手机号</th>
+            <th width="5%">政治面貌</th>
+            <th width="5%">籍贯</th>
+            <th nowrap>本人获奖情况及特长、技能等</th>
+            <th nowrap>对学生机构干部工作的想法</th>
+            <th nowrap>对学院发展及对学生工作的建议</th>
+            <th nowrap>备注</th>
+        </tr>
+        {% for a in applyform %}
+        <tr
+            {% if user.dept == a.first %}
+            style="color: red; font-weight: bolder;"
+            {% elif user.dept == a.second %}
+            span style="color: blue;"
+            {% endif %}
+        >
+            <td>{{ a.id }}</td>
+            <td>{{ a.name }}</td>
+            <td>{{ a.classes }}</td>
+            <td>{{ a.sex }}</td>
+            <td>{{ a.first }}</td>
+            <td>{{ a.second }}</td>
+            <td>{{ a.swap }}</td>
+            <td>{{ a.qq }}</td>
+            <td>{{ a.tel }}</td>
+            <td>{{ a.political }}</td>
+            <td>{{ a.place }}</td>
+            <td>{{ a.award }}</td>
+            <td>{{ a.tink }}</td>
+            <td>{{ a.advice }}</td>
+            <td>{{ a.attach }}</td>
+         </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+<script>
+
+    function back() {
+        history.back()
+    }
+
+</script>

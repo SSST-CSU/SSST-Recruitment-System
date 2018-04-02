@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <link rel="stylesheet" href="{% static "/frame/AmazeUI-2.4.2/assets/css/amazeui.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/button.css"%}">
+    <script type="text/javascript" src="{% static "/frame/AmazeUI-2.4.2/assets/js/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "/frame/AmazeUI-2.4.2/assets/js/amazeui.min.js" %}"></script>
+    <style type="text/css" rel="stylesheet"></style>
+
+    <meta charset="UTF-8">
+    <title>分数汇总</title>
+    <style>
+        td {text-align:center}
+        th {text-align:center}
+    </style>
+</head>
+<body>
+    <h1><label onclick="back()">返回</label></h1>
+    <table border="1" align="center" width="100%">
+    <tr>
+        <th width="2%" rowspan="2">序号</th>
+        <th width="5%" rowspan="2">学号</th>
+        <th width="3.8%" rowspan="2">姓名</th>
+        <th width="2%" rowspan="2">性别</th>
+        <th width="4%" rowspan="2">第一志愿</th>
+        <th width="4%" rowspan="2">第二志愿</th>
+        <th width="4%" rowspan="2">服从调剂</th>
+        <th width="3.5%" rowspan="2">考核一</th>
+        <th colspan="5">考核二</th>
+        <th colspan="13">考核三</th>
+        <th width="3.5%" rowspan="2">面试</th>
+        <th width="3.5%" rowspan="2">总分</th>
+        <th rowspan="2">状态</th>
+        <th rowspan="2">录取结果</th>
+    </tr>
+    <tr>
+        <th width="3%">综事部</th>
+        <th width="3%">竞赛部</th>
+        <th width="3%">双创部</th>
+        <th width="3%">技交部</th>
+        <th width="3%">平均分</th>
+
+        <th width="2.5%">1</th>
+        <th width="2.5%">2</th>
+        <th width="2.5%">3</th>
+        <th width="2.5%">4</th>
+        <th width="2.5%">5</th>
+        <th width="2.5%">6</th>
+        <th width="2.5%">7</th>
+        <th width="2.5%">8</th>
+        <th width="2.5%">9</th>
+        <th width="2.5%">10</th>
+        <th width="2.5%">11</th>
+        <th width="2.5%">12</th>
+        <th width="2.5%">分数</th>
+    </tr>
+
+
+    {% for data in datalist %}
+    <tr>
+        <td>{{ data.no }}</td>
+        <td>{{ data.user.id }}</td>
+        <td>{{ data.user.name }}</td>
+        <td>{{ data.user.sex }}</td>
+        <td>{{ data.user.first }}</td>
+        <td>{{ data.user.second }}</td>
+        <td>{{ data.user.swap }}</td>
+        <td>{{ data.res1 }}</td>
+        {% for index in data.res2 %}
+        <td>
+            {% if index.mark != 0.0 %}
+            {{ index.mark }}
+            {% endif %}
+        </td>
+        {% endfor %}
+        {% for index in data.res3 %}
+        <td>
+        {% if index.mark != 0.0  %}
+            {{ index.mark }}
+        {% endif %}
+        </td>
+        {% endfor %}
+        <td>{{ data.res4 }}</td>
+        <td>{{ data.avg }}</td>
+        <td
+            {% if data.result == "录取" %}
+                style="color: green; font-weight: bold"
+            {% endif %}
+        >{{ data.result }}</td>
+        <td
+            {% if data.result == "录取" %}
+                style="color: green; font-weight: bold"
+            {% endif %}
+        >{{ data.attach }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+</body>
+</html>
+<script>
+
+    function back() {
+        history.back();
+    }
+
+</script>

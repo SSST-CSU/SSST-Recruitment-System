@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static "/frame/AmazeUI-2.4.2/assets/css/amazeui.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/button.css"%}">
+    <script type="text/javascript" src="{% static "/frame/AmazeUI-2.4.2/assets/js/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "/frame/AmazeUI-2.4.2/assets/js/amazeui.min.js" %}"></script>
+    <style type="text/css" rel="stylesheet">
+
+
+    </style>
+
+    <meta charset="UTF-8">
+    <title>科协招新任务发布系统</title>
+</head>
+<body>
+<div style="position: fixed;width: 100%;background:black;border-color: black;z-index: 200" class="am-topbar am-topbar-inverse am-animation-slide-top">
+    <h1 class="am-topbar-brand">
+        <a href="#">CSU软院科协</a>
+    </h1>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse am-animation-slide-top" id="doc-topbar-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav">
+            <li><a href="http://115.159.217.104:8080/index.jsp">首页</a></li>
+            <li><a href="http://115.159.217.104:8080/retriveTeamByPage?targetPage=1">来组团</a></li>
+            <li><a href="http://115.159.217.104:8080/retriveResourceByPage?targetPage=1">下资源</a></li>
+            <li><a href="http://115.159.217.104:8080/retriveLectureByPage?targetPage=1">听讲座</a></li>
+            <li><a href="http://115.159.217.104:8080/viewCompetition?targetPage=1">找比赛</a></li>
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    找我们 <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a onclick="changeDepartment('主席团')">1. 主席团</a></li>
+                    <li><a onclick="changeDepartment('综事部')">2. 综合事务部</a></li>
+                    <li><a onclick="changeDepartment('竞赛部')">3. 竞赛部</a></li>
+                    <li><a onclick="changeDepartment('双创部')">4. 创新创业服务中心</a></li>
+                    <li><a onclick="changeDepartment('技交部')">5. 技术交流与推广部</a></li>
+                    <li><a onclick="changeDepartment('研发中心')">6. 研发中心</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <script type="text/javascript">
+        function changeDepartment(name){
+            var url = "http://115.159.217.104:8080/retriveDepartment?targetDepartment="+name;
+            window.location.href = url;
+        }
+        </script>
+
+    </div>
+</div>
+<script type="text/javascript">
+
+    function changeDepartment(name){
+        var url = "retriveDepartment?targetDepartment="+name;
+        window.location.href = url;
+    }
+
+</script>
+<br>
+<br>
+<br>
+<div>
+    <div style="width: 80%;height: auto;margin-right: auto;margin-left: auto">
+        <form id="registerForm" class="am-form" action="/login/" method="post">
+        {% csrf_token %}
+            <fieldset>
+                <legend align="center">登录</legend>
+                <div>
+                    <div class="am-form-group">
+                    <label for="pwd">学号
+                    </label>
+                    <input type="text" class="" id="id" name="id">
+                </div>
+                <br>
+                <div>
+                    <div class="am-form-group">
+                    <label for="name">姓名
+                    </label>
+                    <input type="text" class="" id="name" name="name">
+                </div>
+                </div>
+
+                <br>
+                <div>
+                    <input type="submit" class="am-btn am-btn-default am-btn-sm am-btn-block" value="登录">
+                    </input>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="msg">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">消息提示
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-modal-bd">
+            <span id="msgContent">
+            </span>
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn">确定</span>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

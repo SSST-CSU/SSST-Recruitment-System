@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>考核任务一</title>
+</head>
+<body>
+<h1><label onclick="back()">返回</label></h1>
+    <table border="1" width="100%">
+        <tr>
+            <th width="5%">学号</th>
+            <th width="5%">姓名</th>
+            <th>答案</th>
+        </tr>
+        {% for a in ans %}
+
+        <tr>
+            <td>
+            {% if user.dept == a.user.first %}
+                <span style="color: red; font-weight: bolder;">
+            {% elif user.dept == a.user.second %}
+                <span style="color: blue;">
+            {% endif %}
+                {{ a.user.id }}
+            {% if user.dept == a.user.first %}
+                </span>
+            {% elif user.dept == a.user.second %}
+                </span>
+            {% endif %}
+            </td>
+            <td>
+            {% if user.dept == a.user.first %}
+                <span style="color: red; font-weight: bolder;">
+            {% elif user.dept == a.user.second %}
+                <span style="color: blue;">
+            {% endif %}
+                {{ a.user.name }}
+            {% if user.dept == a.user.first %}
+                </span>
+            {% elif user.dept == a.user.second %}
+                </span>
+            {% endif %}
+            </td>
+            <td>
+            {% if user.dept == a.user.first %}
+                <span style="color: red; font-weight: bolder;">
+            {% elif user.dept == a.user.second %}
+                <span style="color: blue;">
+            {% endif %}
+                {{ a.ans }}
+            {% if user.dept == a.user.first %}
+                </span>
+            {% elif user.dept == a.user.second %}
+                </span>
+            {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+<script>
+
+    function back() {
+        history.back()
+    }
+
+</script>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+</head>
+<body>
+    <h1>欢迎！</h1>
+    <hr>
+    <h1>学号：{{ user.id }}</h1>
+    <h1>姓名：{{ user.name }}</h1>
+    <h1>部门：{{ user.dept }}</h1>
+    {% if user.dept != "主席团" %}
+        <h1>职务：{{ user.job }}</h1>
+    {% endif %}
+    <hr>
+    <h1><label id="applyform" onclick="gotoApplyform()">报名表</label></h1>
+    <h1><label id="task1" onclick="gotoTask1()">考核一</label></h1>
+    <h1><label id="task2" onclick="gotoTask2()">考核二</label></h1>
+    <h1><label id="task3" onclick="gotoTask3()">考核三</label></h1>
+    <h1><label id="task3" onclick="gotoInterview()">面试名单</label></h1>
+    <h1><label id="cgpwd" onclick="cgpwd()">修改密码</label></h1>
+
+    {% if user.dept == "主席团" or user.dept == "综事部" or user.job == "部长" %}
+        <hr>
+        <h1><label id="marklist" onclick="gotoMarklist()">分数汇总</label></h1>
+    {% endif %}
+    <form id="applyform" action="/eva/applyforms/" method="post">
+        {% csrf_token %}
+        <input type="text" value="{{ user.id }}" name="id" hidden="hidden">
+        <input id="btn0" type="submit" hidden="hidden">
+    </form>
+    <form id="task1" action="/eva/task1/" method="post">
+        {% csrf_token %}
+        <input type="text" value="{{ user.id }}" name="id" hidden="hidden">
+        <input id="btn1" type="submit" hidden="hidden">
+    </form>
+    <form id="task2" action="/eva/task2/" method="post">
+        {% csrf_token %}
+        <input type="text" value="{{ user.id }}" name="id" hidden="hidden">
+        <input id="btn2" type="submit" hidden="hidden">
+    </form>
+    <form id="task3" action="/eva/task3/" method="post">
+        {% csrf_token %}
+        <input type="text" value="{{ user.id }}" name="id" hidden="hidden">
+        <input id="btn3" type="submit" hidden="hidden">
+    </form>
+    <form id="interview" action="/eva/inteviewlist/" method="post">
+        {% csrf_token %}
+        <input type="text" value="{{ user.id }}" name="id" hidden="hidden">
+        <input id="btn4" type="submit" hidden="hidden">
+    </form>
+</body>
+</html>
+<script>
+
+    function gotoApplyform() {
+        document.getElementById("btn0").click();
+    }
+
+    function gotoTask1() {
+        document.getElementById("btn1").click();
+    }
+
+    function gotoTask2() {
+        document.getElementById("btn2").click();
+    }
+
+    function gotoTask3() {
+        document.getElementById("btn3").click();
+    }
+
+    function gotoInterview() {
+        document.getElementById("btn4").click();
+    }
+
+    function cgpwd() {
+        window.location.href = "/eva/pwdcg/" + {{ user.id }};
+    }
+
+    function gotoAdmit() {
+        alert("开发中。。。")
+    }
+
+    function gotoMarklist() {
+        window.location.href = "/eva/marklist/";
+    }
+    
+    function gotoResult() {
+        alert("开发中。。。")
+    }
+
+</script>
